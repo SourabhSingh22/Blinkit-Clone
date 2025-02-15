@@ -25,6 +25,10 @@ const SummaryApi = {
     refreshToken : {
         url : 'api/user/refresh-token',
         method : 'post'
+    },
+    userDetials : {
+        url : 'api/user/user-details',
+        method : 'get'
     }
 }
 

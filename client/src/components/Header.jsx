@@ -1,7 +1,7 @@
-import React from 'react'
+import {useSelector} from 'react-redux'
 // import logo from '../assets/logo.png'
 import Search from './Search'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate} from 'react-router-dom'
 import { FaRegCircleUser } from "react-icons/fa6";
 import useMobile from '../hooks/useMobile';
 import { BsCart4 } from "react-icons/bs";
@@ -12,6 +12,12 @@ const Header = () => {
     const location = useLocation();
     const isSearchPage = location.pathname === '/search'
     const navigate = useNavigate();
+
+    const user = useSelector((state)=> state?.user)
+
+    console.log("user from store", user);
+
+    
 
     const redirectToLogin= () =>{
         navigate('/login');
