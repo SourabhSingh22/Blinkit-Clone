@@ -1,16 +1,19 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Divider from './Divider'
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
 import { logout } from '../store/userSlice'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
+import { FiExternalLink } from "react-icons/fi";
 
-const UserMenu = () => {
+
+const UserMenu = ({close}) => {
     const user = useSelector((state) => state.user)
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const handleLogout = async() =>{
         try {
@@ -19,9 +22,13 @@ const UserMenu = () => {
           })
 
           if(response.data.success){
+            if(close){
+              close();
+            }
             dispatch(logout());
             localStorage.clear()
             toast.success(response.data.message)
+            navigate('/')
           }
         } catch (error) {
           AxiosToastError(error)
@@ -31,7 +38,14 @@ const UserMenu = () => {
   return (
     <div>
         <div className='font-semibold'>My Account</div>
-        <div className='text-sm'>{user.name || user.mobile}</div>
+        <div className='text-sm flex items-center gap-2'>
+          <span className='max-w-52 text-ellipsis line-clamp-1'>
+            {user.name || user.mobile}
+          </span>
+        <Link to={'/dashboard/profile'} className='hover:text-blue-500'>
+        <FiExternalLink size={15}/>
+        </Link>
+        </div>
 
         <Divider/>
 
