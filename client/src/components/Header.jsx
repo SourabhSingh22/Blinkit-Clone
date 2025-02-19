@@ -20,9 +20,6 @@ const Header = () => {
     const user = useSelector((state) => state?.user)
     const [openUserMenu, setOpenUserMenu] = useState(false)
 
-    console.log("user from store", user);
-
-
 
     const redirectToLoginPage = () => {
         navigate('/login');
@@ -42,7 +39,7 @@ const Header = () => {
     }
 
     return (
-        <header className='h-25 lg:h-20 lg:shadow-md sticky top-0 flex justify-center flex-col gap-1 bg-white px-10'>
+        <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 flex justify-center flex-col gap-1 bg-white px-10'>
             {
                 !(isSearchPage && isMobile) && (
                     <div className='container flex mx-auto items-center justify-between'>

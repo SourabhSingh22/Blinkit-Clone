@@ -50,8 +50,8 @@ const UserMenu = ({close}) => {
         <Divider/>
 
         <div className='text-sm grid gap-1'>
-            <Link to={""} className='px-2 hover:bg-blue-300 py-1'>My Oders</Link>
-            <Link to={""} className='px-2 hover:bg-blue-300 py-1'>Save Address</Link>
+            <Link to={"/dashboard/myorders"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>My Oders</Link>
+            <Link to={"/dashboard/address"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Save Address</Link>
             <button onClick={handleLogout} className='text-left px-2 hover:bg-red-700 hover:text-white py-1 rounded'>Log Out</button>
         </div>
     </div>
