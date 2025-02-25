@@ -270,7 +270,7 @@ export async function updateUserDetails(request, response) {
         })
 
         return response.json({
-            message : "update user successfully",
+            message : "Update Successfully",
             error : false,
             success : true,
             data : updateUser

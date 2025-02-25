@@ -35,6 +35,8 @@ const UserMenu = ({close}) => {
         }
     }
 
+  
+
   return (
     <div>
         <div className='font-semibold'>My Account</div>
@@ -42,7 +44,7 @@ const UserMenu = ({close}) => {
           <span className='max-w-52 text-ellipsis line-clamp-1'>
             {user.name || user.mobile}
           </span>
-        <Link to={'/dashboard/profile'} className='hover:text-blue-500'>
+        <Link onClick={close} to={'/dashboard/profile'} className='hover:text-blue-500'>
         <FiExternalLink size={15}/>
         </Link>
         </div>
@@ -50,8 +52,8 @@ const UserMenu = ({close}) => {
         <Divider/>
 
         <div className='text-sm grid gap-1'>
-            <Link to={"/dashboard/myorders"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>My Oders</Link>
-            <Link to={"/dashboard/address"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Save Address</Link>
+            <Link onClick={close} to={"/dashboard/myorders"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>My Oders</Link>
+            <Link onClick={close} to={"/dashboard/address"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Save Address</Link>
             <button onClick={handleLogout} className='text-left px-2 hover:bg-red-700 hover:text-white py-1 rounded'>Log Out</button>
         </div>
     </div>
