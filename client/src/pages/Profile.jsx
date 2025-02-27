@@ -84,7 +84,7 @@ const Profile = () => {
                 )
             }
         </div>
-        <button onClick={()=> setopenProfileAvatarEdit(true)} className='text-sm min-w-20 border border-blue-500 hover:bg-blue-100 cursor-pointer px-3 py-1 rounded-full mt-3'>Edit</button>
+        <button onClick={()=> setopenProfileAvatarEdit(true)} className='text-sm min-w-20 border border-blue-500 hover:text-white hover:bg-blue-500 cursor-pointer px-3 py-1 rounded-full mt-3'>Edit</button>
 
         {
             openProfileAvatarEdit && (

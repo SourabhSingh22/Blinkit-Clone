@@ -7,7 +7,6 @@ import fetchUserDetails from './utils/fetchUserDetails';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from './store/userSlice';
-// import { updateUserDetails } from '../../server/controllers/user.controller';
 
 function App() {
 

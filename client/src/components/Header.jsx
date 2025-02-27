@@ -64,7 +64,7 @@ return (
                 {/* login and my cart */}
                 <div>
                      {/* user icons display is only mobile version */}
-                    <button className='text-neutral-600 lg:hidden' onClick={handleMobileUser}>
+                    <button className='text-neutral-600 lg:hidden cursor-pointer' onClick={handleMobileUser}>
                         <FaRegCircleUser size={26} />
                     </button>
 

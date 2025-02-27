@@ -9,7 +9,7 @@ const UserMenuMobile = () => {
         <button onClick={()=> window.history.back()} className='text-neutral-800 cursor-pointer block w-fit ml-auto'>
             <IoClose size={25}/>
         </button>
-        <div className='container mx-auto px-3 pb-8'>
+        <div className='container mx-auto px-3 pb-8 '>
             <UserMenu/>
         </div>
     </section>
