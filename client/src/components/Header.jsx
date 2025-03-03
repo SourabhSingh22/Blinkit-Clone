@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 // import logo from '../assets/logo.png'
 import Search from './Search'
+import React from "react";
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaRegCircleUser } from "react-icons/fa6";
 import useMobile from '../hooks/useMobile';
