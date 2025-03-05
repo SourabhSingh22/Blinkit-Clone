@@ -94,7 +94,7 @@ const Login = () => {
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id='password'
-                                className='w-full outline-none'
+                                className='w-full outline-none bg-transparent'
                                 name='password'
                                 value={data.password}
                                 onChange={handleChange}
