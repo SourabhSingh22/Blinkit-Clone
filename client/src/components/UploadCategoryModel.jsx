@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {IoClose} from 'react-icons/io5'
+import uploadImage from '../utils/UploadImage'
 
 const UploadCategoryModel = ({close}) => {
   const [data, setData] = useState({
@@ -13,7 +14,7 @@ const UploadCategoryModel = ({close}) => {
     setData((preve)=>{
       return {
         ...preve,
-        [name]: value
+        [name] : value
       }
     })
   }
@@ -22,11 +23,20 @@ const UploadCategoryModel = ({close}) => {
     e.preventDefault();
   }
 
-  const handleUploadCategoryImage = (e) => {
+  const handleUploadCategoryImage = async(e) => {
     const file = e.target.files[0]
 
     if(!file) return;
 
+    const response = await uploadImage(file)
+    const {data : ImageResponse} = response 
+
+    setData((preve)=>{
+      return{
+        ...preve,
+        image : ImageResponse.data.url
+      }
+    })
   }
 
 
@@ -56,14 +66,27 @@ const UploadCategoryModel = ({close}) => {
                   <p>Image</p>
                   <div className='flex gap-4 flex-col lg:flex-row items-center'>
                       <div className='border bg-blue-50 h-36 w-full lg:w-36 flex items-center justify-center rounded'>
-                          <p className='text-sm text-neutral-500'>No Image</p>
+
+                        {
+                          data.image ? (
+                              <img
+                                 alt='category'
+                                 src={data.image}
+                                 className='h-full w-full object-scale-down'
+                              />
+                          ) : (
+                             <p className='text-sm text-neutral-500'>No Image</p>
+                          )
+                        }
+                         
                       </div>
                       <label htmlFor='uploadCategoryImage'>
-                          <div disabled={!data.name} className={`
+                          <div className={`
                          ${!data.name ? 'bg-gray-300' 
                           : 'bg-yellow-500'}
                           px-4 py-2 rounded cursor-pointer`}>Upload Image</div>
-                          <input onChange={handleUploadCategoryImage}type="file"
+
+                          <input disabled={!data.name} onChange={handleUploadCategoryImage}type="file"
                           id='uploadCategoryImage' hidden/>
                       </label>
                       
