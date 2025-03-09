@@ -10,6 +10,7 @@ import { FaAngleDown } from "react-icons/fa6";
 import { FaAngleUp } from "react-icons/fa6";
 import { useState } from 'react';
 import UserMenu from './UserMenu';
+import logo from '../assets/logo.png'
 
 
 const Header = () => {
@@ -26,12 +27,12 @@ const Header = () => {
         navigate('/login');
     }
 
-    const handleCloseUserMenu = () =>{
+    const handleCloseUserMenu = () => {
         setOpenUserMenu(false)
     }
 
-    const handleMobileUser = () =>{
-        if(!user._id){
+    const handleMobileUser = () => {
+        if (!user._id) {
             navigate('login')
             return;
         }
@@ -39,69 +40,69 @@ const Header = () => {
         navigate('/user');
     }
 
-return (
-    <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 flex justify-center flex-col gap-1 bg-white px-10'>
-        {
-            !(isSearchPage && isMobile) && (
-                 <div className='container flex mx-auto items-center justify-between'>
-                    {/* logo */}
-                    <div className='h-full'>
-                        <Link to={"/"} className='h-full flex justify-center items-center'>
-                    <div className='hidden lg:block'>
-                            <p className='text-yellow-500 text-4xl font-bold'>Blink<span className='text-green-700'>it</span></p>
-                        </div>
-
-                        <div className='lg:hidden'>
-                            <p className='text-yellow-500 text-4xl font-bold'>Blink<span className='text-green-700'>it</span></p>
-                        </div>
-
-                    </Link>
-                </div>
-                {/* Search */}
-                <div className='hidden lg:block'>
-                    <Search />
-                </div>
-
-                {/* login and my cart */}
-                <div>
-                     {/* user icons display is only mobile version */}
-                    <button className='text-neutral-600 lg:hidden cursor-pointer' onClick={handleMobileUser}>
-                        <FaRegCircleUser size={26} />
-                    </button>
-
-                    {/* This part for the desktop */}
-                    <div className='hidden lg:flex items-center gap-10'>
-
-                        {
-                            user?._id ? (
-                                <div className='relative'>
-                                    <div onClick={()=> setOpenUserMenu((prev)=> !prev)} className='flex items-center gap-1 cursor-pointer'>
-                                        <p>Account</p>
-                                        {
-                                            openUserMenu ? (
-                                                    <FaAngleUp size={21}/>
-                                            ) : (                                                      
-                                                <FaAngleDown size={21}/>
-                                            )
-                                        }
-                                    </div>
-                                    {
-                                        openUserMenu && (
-                                        <div className='absolute right-0 top-12'>
-                                            <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
-                                                <UserMenu close={handleCloseUserMenu}/>
-                                            </div>
-                                        </div>
-                                        )
-                                    }
-                                            
+    return (
+        <header className='h-24 lg:h-20 lg:shadow-md sticky top-0  z-40 flex justify-center flex-col gap-1 bg-white px-10'>
+            {
+                !(isSearchPage && isMobile) && (
+                    <div className='container flex mx-auto items-center justify-between'>
+                        {/* logo */}
+                        <div className='h-full'>
+                            <Link to={"/"} className='h-full flex justify-center items-center'>
+                                <div className='hidden lg:block'>
+                                    <p className='text-yellow-500 text-4xl font-bold'>Blink<span className='text-green-700'>it</span></p>
                                 </div>
-                            ) : (
-                                <button className='text-lg px-2 cursor-pointer' onClick={redirectToLoginPage}>Login</button>
-                            )
-                        }
 
-                                
+                                <div className='lg:hidden'>
+                                    <p className='text-yellow-500 text-4xl font-bold'>Blink<span className='text-green-700'>it</span></p>
+                                </div>
+
+                            </Link>
+                        </div>
+                        {/* Search */}
+                        <div className='hidden lg:block'>
+                            <Search />
+                        </div>
+
+                        {/* login and my cart */}
+                        <div>
+                            {/* user icons display is only mobile version */}
+                            <button className='text-neutral-600 lg:hidden cursor-pointer' onClick={handleMobileUser}>
+                                <FaRegCircleUser size={26} />
+                            </button>
+
+                            {/* This part for the desktop */}
+                            <div className='hidden lg:flex items-center gap-10'>
+
+                                {
+                                    user?._id ? (
+                                        <div className='relative'>
+                                            <div onClick={() => setOpenUserMenu((prev) => !prev)} className='flex items-center gap-1 cursor-pointer'>
+                                                <p>Account</p>
+                                                {
+                                                    openUserMenu ? (
+                                                        <FaAngleUp size={21} />
+                                                    ) : (
+                                                        <FaAngleDown size={21} />
+                                                    )
+                                                }
+                                            </div>
+                                            {
+                                                openUserMenu && (
+                                                    <div className='absolute right-0 top-12'>
+                                                        <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
+                                                            <UserMenu close={handleCloseUserMenu} />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+
+                                        </div>
+                                    ) : (
+                                        <button className='text-lg px-2 cursor-pointer' onClick={redirectToLoginPage}>Login</button>
+                                    )
+                                }
+
+
                                 <button className='flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-3 rounded text-white'>
                                     {/* add to card icons */}
                                     <div className='animate-bounce '>

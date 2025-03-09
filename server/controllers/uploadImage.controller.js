@@ -15,11 +15,10 @@ const uploadImageController = async(request, response) =>{
         
     } catch (error) {
         return response.status(500).json({
-            message : error.message|| error,
+            message : error.message || error,
             error : true,
             success : false
         })
     }
 }
-
 export default uploadImageController;
