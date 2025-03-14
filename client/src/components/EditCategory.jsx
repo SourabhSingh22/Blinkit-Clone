@@ -6,10 +6,11 @@ import SummaryApi from '../common/SummaryApi'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
 
-const UploadCategoryModel = ({ close , fetchData}) => {
+const EditCategory = ({ close , fetchData, data : CategoryData}) => {
   const [data, setData] = useState({
-    name: "",
-    image: ""
+    _id : CategoryData._id,
+    name: CategoryData.name,
+    image: CategoryData.image
   })
 
   const [loading, setLoading] = useState(false);
@@ -33,7 +34,7 @@ const UploadCategoryModel = ({ close , fetchData}) => {
       setLoading(true)
 
       const response = await Axios({
-        ...SummaryApi.addCategory,
+        ...SummaryApi.updateCategory,
         data: data
       })
 
@@ -60,8 +61,12 @@ const UploadCategoryModel = ({ close , fetchData}) => {
       return
     }
 
+    setLoading(true)
+
     const response = await uploadImage(file)
     const { data: ImageResponse } = response
+
+    setLoading(false)  
 
     setData((preve) => {
       return {
@@ -76,7 +81,7 @@ const UploadCategoryModel = ({ close , fetchData}) => {
     <section className='fixed top-0 bottom-0 left-0 right-0 p-4 bg-neutral-800 bg-opacity-60 flex items-center justify-center z-50'>
       <div className='bg-white max-w-4xl w-full p-4 rounded'>
         <div className='flex items-center justify-between'>
-          <h1 className='font-semibold'>Category</h1>
+          <h1 className='font-semibold'>Update  Category</h1>
           <button onClick={close} className='w-fit block ml-auto'>
             <IoClose size={24} />
           </button>
@@ -104,7 +109,7 @@ const UploadCategoryModel = ({ close , fetchData}) => {
                     <img
                       alt='category'
                       src={data.image}
-                      className='h-full w-full object-scale-down text-black'
+                      className='h-full w-full object-scale-down bg-blue-50 text-black'
                     />
 
                   ) : (
@@ -117,7 +122,11 @@ const UploadCategoryModel = ({ close , fetchData}) => {
                 <div className={`
                          ${!data.name ? 'bg-gray-300'
                     : 'border-yellow-400 hover:bg-yellow-300'}
-                          px-4 py-2 rounded border cursor-pointer font-medium`}>Upload Image</div>
+                          px-4 py-2 rounded border cursor-pointer font-medium`}>
+                            {
+                                loading ? "Loading..." : "Upload Image"
+                            }
+                            </div>
 
                 <input disabled={!data.name} onChange={handleUploadCategoryImage} type="file"
                   id='uploadCategoryImage' hidden />
@@ -132,11 +141,11 @@ const UploadCategoryModel = ({ close , fetchData}) => {
                 ${data.name && data.image ? "bg-yellow-300 hover:bg-yellow-400" : "bg-gray-300"}
                 py-2 font-semibold
               `}
-          >Add Category</button>
+          >Update Category</button>
         </form>
       </div>
     </section>
   )
 }
 
-export default UploadCategoryModel
+export default EditCategory

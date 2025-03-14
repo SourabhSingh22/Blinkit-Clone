@@ -61,7 +61,7 @@ const UserMenu = ({close}) => {
 
             <Link onClick={close} to={"/dashboard/product"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Product</Link>
 
-            <Link onClick={close} to={"/dashboard/myorders"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>My Oders</Link>
+            <Link onClick={close} to={"/dashboard/myorders"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>My Orders</Link>
 
             <Link onClick={close} to={"/dashboard/address"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Save Address</Link>
 
