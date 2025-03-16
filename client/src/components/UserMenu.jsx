@@ -8,6 +8,7 @@ import { logout } from '../store/userSlice'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
 import { FiExternalLink } from "react-icons/fi";
+import isAdmin from '../utils/isAdmin'
 
 
 const UserMenu = ({close}) => {
@@ -43,6 +44,7 @@ const UserMenu = ({close}) => {
         <div className='text-sm flex items-center gap-2'>
           <span className='max-w-52 text-ellipsis line-clamp-1'>
             {user.name || user.mobile}
+            <span className='font-medium text-red-600'>{user.role === "ADMIN" ? " (Admin)" : ""}</span>
           </span>
         <Link onClick={close} to={'/dashboard/profile'} className='hover:text-blue-500'>
         <FiExternalLink size={15}/>
@@ -53,13 +55,31 @@ const UserMenu = ({close}) => {
 
         <div className='text-sm grid gap-1'>
 
-            <Link onClick={close} to={"/dashboard/category"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Category</Link>
+          {
+            isAdmin(user.role) && (
+              <Link onClick={close} to={"/dashboard/category"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Category</Link>
+            )
+          }
 
-            <Link onClick={close} to={'/dashboard/subcategory'} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Sub Category</Link>
+          {
+            isAdmin(user.role) && (
+              <Link onClick={close} to={'/dashboard/subcategory'} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Sub Category</Link>
+            )
+          }
 
-            <Link onClick={close} to={"/dashboard/upload-product"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Upload Product</Link>
+        {
+            isAdmin(user.role) && (
+               <Link onClick={close} to={"/dashboard/upload-product"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Upload Product</Link>
+            )
+          }
 
-            <Link onClick={close} to={"/dashboard/product"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Product</Link>
+           
+          {
+            isAdmin(user.role) && (
+              <Link onClick={close} to={"/dashboard/product"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>Product</Link>
+            )
+          }
+            
 
             <Link onClick={close} to={"/dashboard/myorders"} className='px-2 hover:bg-blue-300 hover:text-black py-1'>My Orders</Link>
 

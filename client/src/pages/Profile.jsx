@@ -69,8 +69,7 @@ const Profile = () => {
 
 
   return (
-    <div>
-
+    <div className='p-4'>
         {/* profile upload and display image */}
         <div className='h-20 w-20 flex items-center justify-center rounded-full overflow-hidden drop-shadow-sm'>
             {
@@ -135,14 +134,11 @@ const Profile = () => {
                   />
             </div>
 
-        <button className='border px-4 py-2 font-semiboldborder-blue-400 hover:bg-blue-500 hover:text-white rounded cursor-pointer'>
+        <button className='border px-4 py-2 font-semibold border-blue-400 hover:bg-blue-500 hover:text-white rounded cursor-pointer'>
             {
                 loading ? "loading..." : "Submit"
-            }
-            
+            }  
             </button>
-
-            
         </form>
     </div>
   )

@@ -52,16 +52,16 @@ const CategoryPage = () => {
     fetchCategory()
   }, [])
 
-  const handleDeleteCategory = async() => {
+  const handleDeleteCategory = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.deleteCategory,
-        data : deleteCategory
+        data: deleteCategory
       })
 
-      const { data : responseData } = response
+      const { data: responseData } = response
 
-      if(responseData.success){
+      if (responseData.success) {
         toast.success(responseData.message)
         fetchCategory()
         setOpenConfirmBoxDelete(false
@@ -91,30 +91,35 @@ const CategoryPage = () => {
         {
           categoryData.map((category, index) => {
             return (
-              <div className='w-32 h-54 rounded shadow-md' key={category._id}>
+              <div className="w-32 h-52 rounded shadow-md bg-white flex flex-col justify-between p-2" key={category._id}>
                 <img
                   alt={category.name}
                   src={category.image}
-                  className='w-full h-44 object-scale-down'
+                  className="w-full h-32 object-contain bg-white p-1"
                 />
-                <div className='flex items-center h-11 gap-2'>
+                <p className="text-center text-sm font-semibold mb-1 min-h-[40px]">{category.name}</p>
+                <div className="flex items-center justify-center gap-2 pb-2">
                   <button onClick={() => {
                     setOpenEdit(true)
                     setEditData(category)
-                  }} className='flex-1 bg-green-100 hover:bg-green-200 text-green-600 font-medium py-2 rounded'>
+                  }} className="w-20 bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded">
                     Edit
                   </button>
+
                   <button onClick={() => {
                     setOpenConfirmBoxDelete(true)
                     setDeleteCategory(category)
-                  }} className='flex-1 bg-red-100 hover:bg-red-200 text-red-600 font-medium py-2 rounded'>
+                  }} className="w-20 bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded">
                     Delete
                   </button>
                 </div>
+
               </div>
             )
           })
         }
+
+
       </div>
 
       {
@@ -134,16 +139,16 @@ const CategoryPage = () => {
       {
         openUploadCategory && (
           <UploadCategoryModel
-          fetchData={fetchCategory} close={() => setOpenUploadCategory(false)} />
+            fetchData={fetchCategory} close={() => setOpenUploadCategory(false)} />
         )
       }
       {
         openConfirmBoxDelete && (
           <ConfirmBox
-          close={() => setOpenConfirmBoxDelete(false)}
-          cancel={() => setOpenConfirmBoxDelete(false)}
-          confirm={handleDeleteCategory}
-           />
+            close={() => setOpenConfirmBoxDelete(false)}
+            cancel={() => setOpenConfirmBoxDelete(false)}
+            confirm={handleDeleteCategory}
+          />
         )
 
       }
