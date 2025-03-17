@@ -14,78 +14,88 @@ import Profile from "../pages/Profile";
 import Address from "../pages/Address";
 import MyOrders from "../pages/MyOrders";
 import CategoryPage from "../pages/CategoryPage";
-import SubCategory from "../pages/SubCategory";
 import UploadProduct from "../pages/UploadProduct";
 import ProductAdmin from "../pages/ProductAdmin";
+import AdminPermission from "../layouts/AdminPermission";
+import SubCategoryPage from "../pages/SubCategoryPage";
 
 const router = createBrowserRouter([
     {
-        path : "/",
-        element : <App/>,
-        children : [
+        path: "/",
+        element: <App />,
+        children: [
             {
-                path : "/",
-                element : <Home/>
+                path: "/",
+                element: <Home />
             },
             {
-                path : "search",
-                element : <SearchPage/>
+                path: "search",
+                element: <SearchPage />
             },
             {
-                path : 'login',
-                element : <Login/>
+                path: 'login',
+                element: <Login />
             },
             {
-                path : 'register',
-                element : <Register/>
+                path: 'register',
+                element: <Register />
             },
             {
-                path : "forgot-password",
-                element : <ForgotPassword/>
+                path: "forgot-password",
+                element: <ForgotPassword />
             },
             {
-                path : "verification-otp",
-                element : <OtpVerification/>
+                path: "verification-otp",
+                element: <OtpVerification />
             },
             {
-                path : "reset-password",
-                element : <ResetPassword/>
+                path: "reset-password",
+                element: <ResetPassword />
             },
             {
-                path : "user",
-                element : <UserMenuMobile/>
+                path: "user",
+                element: <UserMenuMobile />
             },
             {
-                path : "dashboard",
-                element : <Dashboard/>,
-                children : [
+                path: "dashboard",
+                element: <Dashboard />,
+                children: [
                     {
-                        path : "profile",
-                        element: <Profile/>
+                        path: "profile",
+                        element: <Profile />
                     },
                     {
-                        path : "address",
-                        element: <Address/>
+                        path: "address",
+                        element: <Address />
                     },
                     {
-                        path : "myorders",
-                        element: <MyOrders/>
+                        path: "myorders",
+                        element: <MyOrders />
                     },
                     {
-                        path : "category",
-                        element: <CategoryPage/>
+                        path: "category",
+                        element: <AdminPermission><CategoryPage /></AdminPermission>
                     },
                     {
-                        path : "subCategory",
-                        element: <SubCategory/>
+                        path: "subCategory",
+                        element:
+                            <AdminPermission>
+                             <SubCategoryPage />
+                            </AdminPermission> 
                     },
                     {
-                        path : "upload-product",
-                        element: <UploadProduct/>
+                        path: "upload-product",
+                        element: 
+                        <AdminPermission>
+                            <UploadProduct />
+                        </AdminPermission>
                     },
                     {
-                        path : "product",
-                        element: <ProductAdmin/>
+                        path: "product",
+                        element:
+                        <AdminPermission>
+                            <ProductAdmin />
+                        </AdminPermission> 
                     }
                 ]
 

@@ -7,8 +7,6 @@ const Dashboard = () => {
 
   const user = useSelector(state => state.user);
 
-  console.log("User Dashboard", user);
-  
   
   return (
     <section className='bg-white px-8'>
