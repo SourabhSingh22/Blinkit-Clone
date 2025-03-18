@@ -21,20 +21,20 @@ const UploadSubCategoryModel = ({ close }) => {
         })
     }
 
-    const handleUploadSubCategoryImage = async(e) =>{
+    const handleUploadSubCategoryImage = async (e) => {
         const file = e.target.files[0]
 
-        if(!file){
+        if (!file) {
             return;
         }
 
         const response = await uploadImage(file)
-        const {data : ImageResponse} = response
+        const { data: ImageResponse } = response
 
-        setSubCategoryData((preve)=>{
-            return{
+        setSubCategoryData((preve) => {
+            return {
                 ...preve,
-                image : ImageResponse.data.url
+                image: ImageResponse.data.url
             }
         })
     }
@@ -68,8 +68,8 @@ const UploadSubCategoryModel = ({ close }) => {
                                         <p className='text-sm text-neutral-400 '>No Image</p>
                                     ) : (
                                         <img src={subCategoryData.image} alt='subCategory'
-                                        className='w-full h-full object-scale-down'
-                                         />
+                                            className='w-full h-full object-scale-down'
+                                        />
                                     )
                                 }
                             </div>
@@ -78,24 +78,39 @@ const UploadSubCategoryModel = ({ close }) => {
                                     UploadImage
                                 </div>
                                 <input
-                                hidden
-                                id='uploadSubCategoryImage'
-                                type='file'
-                                onChange={handleUploadSubCategoryImage}
+                                    hidden
+                                    id='uploadSubCategoryImage'
+                                    type='file'
+                                    onChange={handleUploadSubCategoryImage}
                                 />
                             </label>
 
                         </div>
                     </div>
-                    <div className='grid gap-1'>
+
+                    {/* <div className='grid gap-1'>
                         <label htmlFor="">Select Category</label>
                         <select
-                        className='bg-blue-50 border p-3'
-                         name=""
-                         id="">
+                            className='bg-blue-50 border p-3'
+                            name=""
+                            id="">
                             <option value={""}>Select Category</option>
                         </select>
+                    </div> */}
+
+                    <div className='grid gap-1'>
+                        <label>Select Category</label>
+                        <div className='border focus-within:border-yellow-400 rounded outline-none'>
+                            {/* display value */}
+
+
+                            {/* select category */}
+                            <select className='w-full' >
+                                <option value={""} disabled>Select Category</option>
+                            </select>
+                        </div>
                     </div>
+
                 </form>
             </div>
         </section>

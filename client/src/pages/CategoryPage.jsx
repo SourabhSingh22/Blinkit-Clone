@@ -9,6 +9,8 @@ import EditCategory from '../components/EditCategory'
 import ConfirmBox from '../components/ConfirmBox'
 import AxiosToastError from '../utils/AxiosToastError'
 import toast from 'react-hot-toast'
+import { useSelector } from 'react-redux'
+
 
 const CategoryPage = () => {
 
@@ -27,30 +29,36 @@ const CategoryPage = () => {
     _id: ""
   })
 
-  const fetchCategory = async () => {
-    try {
-      setLoading(true)
-      const response = await Axios({
-        ...SummaryApi.getCategory
-      })
+  const allCategory = useSelector(state => state.product.allCategory)
+  
+  useEffect(()=>{
+    setCategoryData(allCategory)
+  },[allCategory])
 
-      const { data: responseData } = response
+  // const fetchCategory = async () => {
+  //   try {
+  //     setLoading(true)
+  //     const response = await Axios({
+  //       ...SummaryApi.getCategory
+  //     })
 
-      if (responseData.success) {
-        setCategoryData(responseData.data)
-      }
+  //     const { data: responseData } = response
+
+  //     if (responseData.success) {
+  //       setCategoryData(responseData.data)
+  //     }
 
 
-    } catch (error) {
+  //   } catch (error) {
 
-    } finally {
-      setLoading(false)
-    }
-  }
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
-  useEffect(() => {
-    fetchCategory()
-  }, [])
+  // useEffect(() => {
+  //   fetchCategory()
+  // }, [])
 
   const handleDeleteCategory = async () => {
     try {
