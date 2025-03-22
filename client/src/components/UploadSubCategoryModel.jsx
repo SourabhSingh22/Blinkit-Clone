@@ -104,7 +104,7 @@ const UploadSubCategoryModel = ({ close }) => {
                             <div className='border h-36 w-full lg:w-36 bg-blue-50 flex items-center justify-center'>
                                 {
                                     !subCategoryData.image ? (
-                                        <p className='text-sm text-neutral-400 '>No Image</p>
+                                        <p className='text-sm text-neutral-400'>No Image</p>
                                     ) : (
                                         <img src={subCategoryData.image} alt='subCategory'
                                             className='w-full h-full object-scale-down'
