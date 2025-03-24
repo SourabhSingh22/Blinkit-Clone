@@ -6,11 +6,14 @@ import SummaryApi from '../common/SummaryApi'
 import DisplayTable from '../components/DisplayTable'
 import { createColumnHelper } from '@tanstack/react-table'
 import ViewImage from '../components/ViewImage'
-import {LuPencil} from 'react-icons/lu'
+import {HiPencil} from 'react-icons/hi'
 import {MdDelete} from 'react-icons/md'
+import EditSubCategory from '../components/EditSubCategory'
+import ConfirmBox from "../components/ConfirmBox";
+import toast from 'react-hot-toast'
 
 
-const SubCategoryPage = () => {
+const SubCategoryPage = ({close, cancel, confirm}) => {
 
   const [openAddSubCategory, setOpenAddSubCategory] = useState(false)
   const [data, setData] = useState([])
@@ -18,8 +21,18 @@ const SubCategoryPage = () => {
   const [loading, setLoading] = useState(false)
   const columnHelper = createColumnHelper()
   const [ImageURL, setImageURL] = useState("")
+  const [openEditSubCategory, setOpenEditSubCategory] = useState(false);
+  const [editData, setEditData] = useState({
+    _id : ""
+  })
 
-  const fetehSubCategory = async () => {
+  const [deleteSubCategory, setDeleteSubCategory] = useState({
+    _id : ""
+  })
+
+  const [openDeleteConfirmBox, setOpenDeleteConfirmBox] = useState(false)
+
+  const fetchSubCategory = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.getSubCategory
@@ -39,7 +52,7 @@ const SubCategoryPage = () => {
   }
 
   useEffect(() => {
-    fetehSubCategory()
+    fetchSubCategory()
   }, [])
 
   const column = [
@@ -81,11 +94,19 @@ const SubCategoryPage = () => {
       header : "Action",
       cell : ({row})=>{
         return (
-          <div>
-              <button>
-                  <LuPencil size={20}/>
+          <div className='flex items-center justify-center gap-3'>
+              <button onClick={()=> {
+                setOpenEditSubCategory(true)
+                setEditData(row.original)
+                }} className='p-2 bg-green-100 rounded-full hover:text-green-600'>
+                  <HiPencil size={20}/>
               </button>
-              <button>
+              <button onClick={()=>
+              {
+              setOpenDeleteConfirmBox(true)
+              setDeleteSubCategory(row.original)
+              
+              }} className='p-2 bg-red-100 rounded-full text-red-500 hover:text-red-600'>
                   <MdDelete size={20}/>
               </button>
           </div>
@@ -94,7 +115,27 @@ const SubCategoryPage = () => {
     })
   ]
 
-  console.log("subcategorydata", data);
+  const handleDeleteSubCategory = async() =>{
+    try {
+      const response = await Axios({
+        ...SummaryApi.deleteSubCategory,
+        data : deleteSubCategory
+      })
+      
+
+      const {data : responseData} = response
+
+      if(responseData.success){
+        toast.success(responseData.message)
+        fetchSubCategory()
+        setOpenDeleteConfirmBox(false)
+        setDeleteSubCategory({_id : ""})
+      }
+
+    } catch (error) {
+      AxiosToastError(error)
+    }
+  }
 
 
   return (
@@ -104,7 +145,7 @@ const SubCategoryPage = () => {
         <button onClick={() => setOpenAddSubCategory(true)} className='border border-yellow-300 px-3 py-1 rounded text-sm hover:bg-yellow-300'>Add Sub Category</button>
       </div>
 
-      <div>
+      <div className='overflow-auto w-full max-w-[95vw]'>
         <DisplayTable
           data={data}
           column={column}
@@ -124,6 +165,24 @@ const SubCategoryPage = () => {
           <ViewImage url={ImageURL} close={()=> setImageURL("")}/>
         )
         
+      }
+
+      {
+        openEditSubCategory && (
+          <EditSubCategory
+           data={editData} close={()=> setOpenEditSubCategory(false)}
+           fetchData={fetchSubCategory}/>
+        )
+      }
+
+      {
+        openDeleteConfirmBox && (
+          <ConfirmBox
+          close={()=> setOpenDeleteConfirmBox(false)}
+          cancel={()=>setOpenDeleteConfirmBox(false)}
+          confirm={handleDeleteSubCategory}
+           />
+        )
       }
 
     </section>
