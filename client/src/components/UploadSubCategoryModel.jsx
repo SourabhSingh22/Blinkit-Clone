@@ -96,6 +96,7 @@ const UploadSubCategoryModel = ({ close }) => {
                             value={subCategoryData.name}
                             onChange={handleChange}
                             className='bg-blue-50 border outline-none p-3 focus-within:border-yellow-300 rounded'
+                            placeholder='Enter sub category name'
                         />
                     </div>
                     <div className='grid gap-1'>
