@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaCloudUploadAlt } from 'react-icons/fa'
 import uploadImage from '../utils/UploadImage'
 import Loading from '../components/Loading'
@@ -7,6 +7,10 @@ import { MdDelete } from "react-icons/md"
 import { useSelector } from 'react-redux'
 import { IoClose } from 'react-icons/io5'
 import AddField from '../components/AddField'
+import Axios from '../utils/Axios'
+import SummaryApi from '../common/SummaryApi'
+import AxiosToastError from '../utils/AxiosToastError'
+import successAlert from '../utils/SuccessAlert'
 
 const UploadProduct = () => {
 
@@ -112,9 +116,40 @@ const UploadProduct = () => {
     setOpenAddField(false)
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = async(e) =>{
     e.preventDefault()
+    try {
+      const response = await Axios({
+        ...SummaryApi.createProduct,
+        data : data
+      })
+
+      const {data : responseData} = response
+
+      if(responseData.success){
+        successAlert(responseData.message)
+        setData({
+          name: "",
+          image: [],
+          category: [],
+          subCategory: [],
+          unit: "",
+          stock: "",
+          price: "",
+          discount: "",
+          description: "",
+          more_details: {},
+        })
+      }
+      
+    } catch (error) {
+      AxiosToastError(error);
+    }
   }
+
+  // useEffect(()=>{
+  //   successAlert("Upload Successfully")
+  // })
 
 
   return (
@@ -269,12 +304,12 @@ const UploadProduct = () => {
                   })
                   setSelectSubCategory("")
                 }}
-                name="" id="">
+                >
                 <option value={""} className='text-neutral-600'>Select Sub Category</option>
                 {
                   allSubCategory.map((c, index) => {
                     return (
-                      <option value={c?._id+index+"productsection"}>{c.name}</option>
+                      <option value={c?._id}>{c.name}</option>
                     )
                   })
                 }
@@ -283,7 +318,7 @@ const UploadProduct = () => {
                 {
                   data.subCategory.map((c, index) => {
                     return (
-                      <div className='flex gap-1 items-center text-sm bg-blue-50 shadow-sm mt-2' key={c._id + index + "subCategorySection"}>
+                      <div className='flex gap-1 items-center text-sm bg-blue-50 shadow-sm mt-2' key={c._id+index+"productsection"}>
                         <p>{c.name}</p>
                         <div className=' cursor-pointer hover:text-red-600' onClick={() => handleRemoveSubCategory(index)}>
                           <IoClose size={20} />
