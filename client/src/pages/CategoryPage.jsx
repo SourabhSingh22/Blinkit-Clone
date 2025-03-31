@@ -105,7 +105,7 @@ const CategoryPage = () => {
                   src={category.image}
                   className="w-full h-32 object-contain bg-white p-1"
                 />
-                <p className="text-center text-sm font-semibold mb-1 min-h-[40px] text-ellipsis line-clamp-2">{category.name}</p>
+                {/* <p className="text-center text-sm font-semibold mb-1 min-h-[40px] text-ellipsis line-clamp-2">{category.name}</p> */}
                 <div className="flex items-center justify-center gap-2 pb-2">
                   <button onClick={() => {
                     setOpenEdit(true)

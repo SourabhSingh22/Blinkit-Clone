@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from './store/userSlice';
 import React from "react";
-import { setAllCategory, setAllSubCategory } from './store/productSlice';
+import { setAllCategory, setAllSubCategory, setLoadingCategory } from './store/productSlice';
 import Axios from './utils/Axios';
 import SummaryApi from './common/SummaryApi';
 
@@ -23,6 +23,7 @@ function App() {
 
   const fetchCategory = async () => {
     try {
+      dispatch(setLoadingCategory(true))
       const response = await Axios({
         ...SummaryApi.getCategory
       })
@@ -37,7 +38,7 @@ function App() {
     } catch (error) {
 
     } finally {
-
+      dispatch(setLoadingCategory(false))
     }
   }
 

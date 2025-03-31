@@ -28,7 +28,7 @@ const ProductAdmin = () => {
       const { data: responseData } = response
 
       if (responseData.success) {
-        setTotalPageCount(responseData.totalPageCount)
+        setTotalPageCount(responseData.totalNoPage)
         setProductData(responseData.data)
       }
     } catch (error) {
@@ -43,7 +43,7 @@ const ProductAdmin = () => {
   }, [page])
 
   const handleNextPage = () => {
-    if (page !== totalPageCount - 1) {
+    if (page !== totalPageCount) {
       setPage(preve => preve + 1)
     }
   }
@@ -77,7 +77,7 @@ const ProductAdmin = () => {
 
   return (
     <section>
-      <div className='p-2 bg-white flex items-center justify-between shadow-md gap-4'>
+      <div className='bg-red-200 p-2 flex items-center justify-between shadow-md gap-4'>
           <h2 className='font-semibold'>Product</h2>
           <div className='min-w-24 border focus-within:border-blue-300 h-full bg-blue-50 px-4 flex items-center gap-3 p-2 rounded w-full ml-auto max-w-56'>
             <IoSearchOutline size={25} />
