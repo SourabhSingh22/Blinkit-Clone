@@ -111,8 +111,8 @@ export const getProductByController = async (request, response) => {
             })
         }
 
-        const product = await ProductModel.findById({
-            category: { $in: id }
+        const product = await ProductModel.find({
+            category: {$in : id }
         }).limit(15)
 
         return response.json({
