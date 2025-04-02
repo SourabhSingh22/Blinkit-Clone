@@ -19,6 +19,7 @@ import ProductAdmin from "../pages/ProductAdmin";
 import AdminPermission from "../layouts/AdminPermission";
 import SubCategoryPage from "../pages/SubCategoryPage";
 import ProductList from "../pages/ProductList";
+import ProductDisplayPage from "../pages/ProductDisplayPage";
 
 const router = createBrowserRouter([
     {
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
                         element : <ProductList />
                     }
                 ]
+            },
+            {
+                path : "product/:product",
+                element : <ProductDisplayPage/>
             }
         ]
     }
