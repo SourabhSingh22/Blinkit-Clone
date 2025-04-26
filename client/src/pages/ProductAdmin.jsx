@@ -6,6 +6,7 @@ import Loading from '../components/Loading.jsx'
 import ProductCardAdmin from '../components/ProductCardAdmin.jsx'
 import { IoSearchOutline } from 'react-icons/io5'
 
+
 const ProductAdmin = () => {
   const [productData, setProductData] = useState([])
   const [page, setPage] = useState(1)
@@ -77,7 +78,7 @@ const ProductAdmin = () => {
 
   return (
     <section>
-      <div className='bg-red-200 p-2 flex items-center justify-between shadow-md gap-4'>
+      <div className='bg-blue-200 p-2 flex items-center justify-between shadow-md gap-4 rounded-tl-sm rounded-tr-sm'>
           <h2 className='font-semibold'>Product</h2>
           <div className='min-w-24 border focus-within:border-blue-300 h-full bg-blue-50 px-4 flex items-center gap-3 p-2 rounded w-full ml-auto max-w-56'>
             <IoSearchOutline size={25} />
@@ -102,7 +103,7 @@ const ProductAdmin = () => {
             {
               productData.map((p, index) => {
                 return (
-                  <ProductCardAdmin data={p} />
+                  <ProductCardAdmin data={p} fetchProductData={fetchProductData} />
                 )
               })
             }
@@ -116,7 +117,7 @@ const ProductAdmin = () => {
         </div>
       </div>
 
-
+      
     </section>
   )
 }

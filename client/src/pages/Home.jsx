@@ -3,7 +3,7 @@ import banner from '../assets/banner.jpg'
 import bannerMobile from '../assets/banner-mobile.jpg'
 import { useSelector } from 'react-redux'
 import { validURLConvert } from '../utils/ValidURL.Convert'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay'
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
   const navigate = useNavigate()
 
   const handleRedirectProductList = (id, cat) =>{
-    console.log(id, cat)
+    
     const subcategory = subCategoryData.find(sub => {
       const filterData = sub.category.some(c => {
         return c._id == id
@@ -25,12 +25,10 @@ const Home = () => {
     })
 
     
-
     const url  = `/${validURLConvert(cat)}-${id}/${validURLConvert(subcategory.name)}-${subcategory._id}`
 
     navigate(url)
 
-    console.log(url)
   }
 
   
@@ -69,7 +67,7 @@ const Home = () => {
                   <div>
                     <img
                       src={cat.image}
-                      className='w-full h-full object-scale-down'
+                      className='w-full h-full object-scale-down cursor-pointer'
                       alt="" />
                   </div>
                 </div>
@@ -84,7 +82,10 @@ const Home = () => {
         {
           categoryData.map((c, index)=>{
             return (
-              <CategoryWiseProductDisplay key={c._id+"CategoryWiseProductDisplay"} id={c?._id} name={c?.name} />
+              <CategoryWiseProductDisplay
+               key={c?._id+"CategoryWiseProduct"}
+               id={c?._id} 
+               name={c?.name} />
             )
           })
         }

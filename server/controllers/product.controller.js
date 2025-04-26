@@ -76,7 +76,7 @@ export const getProductController = async (request, response) => {
         const skip = (page - 1) * limit
 
         const [data, totalCount] = await Promise.all([
-            ProductModel.find(query).sort({ createAt: -1 }).skip(skip).limit(limit),
+            ProductModel.find(query).sort({ createAt: -1 }).skip(skip).limit(limit).populate('category subCategory'),
             ProductModel.countDocuments(query)
         ])
 
@@ -112,14 +112,14 @@ export const getProductByController = async (request, response) => {
         }
 
         const product = await ProductModel.find({
-            category: {$in : id }
+            category: { $in: id }
         }).limit(15)
 
         return response.json({
-            message : "category product list",
-            data : product,
-            error : false,
-            success : true
+            message: "category product list",
+            data: product,
+            error: false,
+            success: true
         })
 
     } catch (error) {
@@ -131,45 +131,179 @@ export const getProductByController = async (request, response) => {
     }
 }
 
-export const getProductByCategoryAndSubCategory = async(request, response) =>{
+export const getProductByCategoryAndSubCategory = async (request, response) => {
     try {
-        const {categoryId, subCategoryId, page, limit} = request.body
+        const { categoryId, subCategoryId, page, limit } = request.body
 
-        if(!categoryId || !subCategoryId) {
+        if (!categoryId || !subCategoryId) {
             return response.status(400).json({
-                message : "Provide categoryId and subcategoryId",
-                error : true,
-                success : false
+                message: "Provide categoryId and subcategoryId",
+                error: true,
+                success: false
             })
         }
 
-        if(!page){
+        if (!page) {
             page = 1
         }
-        if(!limit){
+        if (!limit) {
             limit = 10
         }
 
         const query = {
-            categoryId : {$in : categoryId},
-            subCategory : {$in : subCategoryId}
+            category: { $in: categoryId },
+            subCategory: { $in: subCategoryId }
         }
 
-        const skip = (page -1) * limit
+        const skip = (page - 1) * limit
 
         const [data, dataCount] = await Promise.all([
-            ProductModel.find(query).sort({createdAt : -1}).skip(skip).limit(limit),
+            ProductModel.find(query).sort({ createdAt: -1 }).skip(skip).limit(limit),
             ProductModel.countDocuments(query)
         ])
 
         return response.json({
-            message : "Product list",
+            message: "Product list",
+            data: data,
+            totalCount: dataCount,
+            page: page,
+            limit: limit,
+            success: true,
+            error: false
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+export const getProductDetails = async (request, response) => {
+    try {
+        const { productId } = request.body
+
+        console.log("productid", productId)
+
+        const product = await ProductModel.findOne({ _id: productId })
+
+        return response.json({
+            message: "product details",
+            data: product,
+            error: false,
+            success: true
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+export const updateProductDetails = async (request, response) => {
+    try {
+        const { _id } = request.body
+
+        if (!_id) {
+            return response.status(400).json({
+                message: "provide product _id",
+                success: true,
+                error: false
+            })
+        }
+
+        const updateProduct = await ProductModel.updateOne({ _id: _id }, {
+            ...request.body
+        })
+
+        return response.json({
+            message: "updated successfully",
+            data: updateProduct,
+            success: true,
+            error: false
+        })
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+export const deleteProductDetails = async (request, response) => {
+    try {
+        const { _id } = request.body
+
+        
+        if (!_id) {
+            return response.status(400).json({
+                message: 'Provide _id',
+                error: true,
+                success: false
+            })
+        }
+        
+        const deleteProduct = await ProductModel.deleteOne({ _id: _id })
+
+        return response.json({
+            message: "Deleted successfully",
+            data: deleteProduct,
+            error: false,
+            success: true
+        })
+
+
+    } catch (error) {
+        return response.status(500).json({
+            message: error.message || error,
+            error: true,
+            success: false
+        })
+    }
+}
+
+// search product
+export const searchProduct = async(request, response)=>{
+    try {
+        let {page, limit, search} = request.body
+
+        if(!page){
+            page = 1
+        }
+
+        if(!limit){
+            limit = 10
+        }
+
+        const query = search ? {
+            $text : {
+                search : search
+            }
+        } : {}
+
+        const skip = (page - 1) * limit
+
+        const [data, dataCount] = await Promise.all([
+            ProductModel.find(query).sort( { createAt : -1 }).skip(skip).limit(limit).populate('category subCategory'),
+            ProductModel.countDocuments(query)
+        ])
+
+        return response.json({
+            message : "Product data",
+            error : false,
+            success : true,
             data : data,
             totalCount : dataCount,
+            totalPage : Math.ceil(dataCount/limit),
             page : page,
-            limit : limit,
-            success : true,
-            error : false
+            limit : limit
         })
 
     } catch (error) {
