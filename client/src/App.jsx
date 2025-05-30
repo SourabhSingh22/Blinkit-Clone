@@ -1,3 +1,4 @@
+import React from 'react'
 import { Outlet } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header'
@@ -7,7 +8,6 @@ import fetchUserDetails from './utils/fetchUserDetails';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from './store/userSlice';
-import React from "react";
 import { setAllCategory, setAllSubCategory, setLoadingCategory } from './store/productSlice';
 import Axios from './utils/Axios';
 import SummaryApi from './common/SummaryApi';

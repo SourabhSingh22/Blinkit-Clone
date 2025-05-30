@@ -5,6 +5,7 @@ import Axios from '../utils/Axios'
 import AxiosToastError from '../utils/AxiosToastError'
 import CartProduct from '../components/CartProduct'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { useLocation } from 'react-router-dom'
 
 const SearchPage = () => {
   const [data, setData] = useState([])
@@ -12,6 +13,8 @@ const SearchPage = () => {
   const loadingArrayCard = new Array(10).fill(null)
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
+  const params = useLocation()
+  const searchText = params?.search?.slice(3)
 
 
   const fetchData = async () => {
@@ -20,7 +23,7 @@ const SearchPage = () => {
       const response = await Axios({
         ...SummaryApi.searchProduct,
         data: {
-          search: "",
+          search: searchText,
           page : page,
         }
       })
@@ -34,7 +37,7 @@ const SearchPage = () => {
           setData((preve) => {
             return [
               ...preve,
-              responseData.data
+              ...responseData.data
             ]
           })
         }
@@ -50,7 +53,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     fetchData();
-  }, [page])
+  }, [page,totalPage])
 
   const handleFetchMore = () =>{
     if(totalPage > page){
@@ -73,7 +76,7 @@ const SearchPage = () => {
             {
               data.map((p, index) => {
                 return (
-                  <CartProduct data={p} key={p._id + "searchProduct" + index} />
+                  <CartProduct data={p} key={p?._id + "searchProduct" + index} />
                 )
               })
             }

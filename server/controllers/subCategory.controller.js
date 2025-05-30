@@ -1,4 +1,3 @@
-import { request, response } from "express";
 import SubCategoryModel from "../models/subCategory.model.js";
 
 export const AddSubCategoryController = async(request, response) => {
@@ -43,6 +42,7 @@ export const getSubCategoryController = async(request, response) => {
     try {
         const data = await SubCategoryModel.find().sort({createAt : -1}).populate('category')
 
+    
         return response.json({
             message : "Sub Category data",
             data : data,

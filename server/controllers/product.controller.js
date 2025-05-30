@@ -293,7 +293,7 @@ export const searchProduct = async(request, response)=>{
         const [data, dataCount] = await Promise.all([
             ProductModel.find(query).sort( { createAt : -1 }).skip(skip).limit(limit).populate('category subCategory'),
             ProductModel.countDocuments(query)
-        ])
+        ]) 
 
         return response.json({
             message : "Product data",
