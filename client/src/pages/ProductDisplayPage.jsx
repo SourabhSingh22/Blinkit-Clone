@@ -8,6 +8,7 @@ import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees'
 import Divider from '../components/Divider'
 import image1 from '../assets/minute_delivery.jpg'
 import { pricewithDiscount } from '../utils/PriceWithDiscount'
+import AddToCartButton from '../components/AddToCartButton'
 
 const ProductDisplayPage = () => {
   const params = useParams()
@@ -113,7 +114,7 @@ const ProductDisplayPage = () => {
 
         </div>
 
-        <div className='my-4 grid gap-3'>
+        <div className='my-4 hidden lg:grid gap-3'>
           <div>
             <p className='font-semibold'>Description</p>
             <p className='text-base'>{data.description}</p>
@@ -161,7 +162,10 @@ const ProductDisplayPage = () => {
           data.stock === 0 ? (
             <p className='text-lg text-red-500 my-2'>Out of Stock</p>
           ) : (
-            <button className='my-4 px-4 py-1 bg-green-600 hover:bg-green-700 text-white rounded'>Add</button>
+            // <button className='my-4 px-4 py-1 bg-green-600 hover:bg-green-700 text-white rounded'>Add</button>
+            <div className='my-4'>
+              <AddToCartButton data={data}/>
+            </div>
           )
         }
 
@@ -203,6 +207,26 @@ const ProductDisplayPage = () => {
               <p>Choose from 5000+ products across food personal care , household & other category</p>
             </div>
           </div>
+        </div>
+
+        {/* only mobile */}
+        <div className='my-4 grid gap-3'>
+          <div>
+            <p className='font-semibold'>Description</p>
+            <p className='text-base'>{data.description}</p>
+          </div>
+          <div>
+            <p className='font-semibold'>Unit</p>
+            <p className='text-base'>{data.unit}</p>
+          </div>
+          {
+            data?.more_details && Object.keys(data?.more_details).map((element, index) => {
+              <div>
+                <p className='font-semibold'>{element}</p>
+                <p className='text-base'>{data?.more_details[element]}</p>
+              </div>
+            })
+          }
         </div>
       </div>
     </section>

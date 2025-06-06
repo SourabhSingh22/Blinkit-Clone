@@ -241,7 +241,7 @@ export const deleteProductDetails = async (request, response) => {
     try {
         const { _id } = request.body
 
-        
+
         if (!_id) {
             return response.status(400).json({
                 message: 'Provide _id',
@@ -249,7 +249,7 @@ export const deleteProductDetails = async (request, response) => {
                 success: false
             })
         }
-        
+
         const deleteProduct = await ProductModel.deleteOne({ _id: _id })
 
         return response.json({
@@ -270,47 +270,45 @@ export const deleteProductDetails = async (request, response) => {
 }
 
 // search product
-export const searchProduct = async(request, response)=>{
+export const searchProduct = async (request, response) => {
     try {
-        let {page, limit, search} = request.body
+        let { page, limit, search } = request.body
 
-        if(!page){
+        if (!page) {
             page = 1
         }
 
-        if(!limit){
+        if (!limit) {
             limit = 10
         }
 
         const query = search ? {
-            $text : {
-                search : search
-            }
+            name: { $regex: search, $options: 'i' }
         } : {}
 
         const skip = (page - 1) * limit
 
         const [data, dataCount] = await Promise.all([
-            ProductModel.find(query).sort( { createAt : -1 }).skip(skip).limit(limit).populate('category subCategory'),
+            ProductModel.find(query).sort({ createAt: -1 }).skip(skip).limit(limit).populate('category subCategory'),
             ProductModel.countDocuments(query)
-        ]) 
+        ])
 
         return response.json({
-            message : "Product data",
-            error : false,
-            success : true,
-            data : data,
-            totalCount : dataCount,
-            totalPage : Math.ceil(dataCount/limit),
-            page : page,
-            limit : limit
+            message: "Product data",
+            error: false,
+            success: true,
+            data: data,
+            totalCount: dataCount,
+            totalPage: Math.ceil(dataCount / limit),
+            page: page,
+            limit: limit
         })
 
     } catch (error) {
         return response.status(500).json({
-            message : error.message || error,
-            error : true,
-            success : false
+            message: error.message || error,
+            error: true,
+            success: false
         })
     }
 }

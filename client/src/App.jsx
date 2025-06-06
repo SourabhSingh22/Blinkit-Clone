@@ -11,6 +11,8 @@ import { setUserDetails } from './store/userSlice';
 import { setAllCategory, setAllSubCategory, setLoadingCategory } from './store/productSlice';
 import Axios from './utils/Axios';
 import SummaryApi from './common/SummaryApi';
+import { handleAddItemCart } from './store/cartProduct'
+import GlobalProvider from './provider/GlobalProvider'
 
 function App() {
 
@@ -62,22 +64,25 @@ function App() {
     }
   }
 
+
+
   useEffect(()=>{
     fetchUser()
     fetchCategory();
     fetchSubCategroy();
+    // fetchCartItem();
   },[])
 
    
   return (
-    <>
+    <GlobalProvider>
       <Header/>
       <main className='min-h-[76vh]'>
         <Outlet/>
       </main>
       <Footer/>
       <Toaster/>
-    </>
+    </GlobalProvider>
     
   )
 }

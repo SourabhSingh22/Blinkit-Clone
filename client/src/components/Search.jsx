@@ -29,7 +29,6 @@ const Search = () => {
         const value = e.target.value;
         const url = `/search?q=${value}`
         navigate(url)
-
     }
    
 

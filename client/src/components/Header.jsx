@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 // import logo from '../assets/logo.png'
 import Search from './Search'
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaRegCircleUser } from "react-icons/fa6";
 import useMobile from '../hooks/useMobile';
@@ -11,6 +11,7 @@ import { FaAngleUp } from "react-icons/fa6";
 import { useState } from 'react';
 import UserMenu from './UserMenu';
 import logo from '../assets/logo.png'
+import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees';
 
 
 const Header = () => {
@@ -21,6 +22,10 @@ const Header = () => {
 
     const user = useSelector((state) => state?.user)
     const [openUserMenu, setOpenUserMenu] = useState(false)
+    const cartItem = useSelector((state) => state?.cartItem.cart)
+    const [totalPrice, setTotalPrice] = useState(0);
+    const [totalQty, setTotalQty] = useState(0);
+
 
 
     const redirectToLoginPage = () => {
@@ -39,6 +44,20 @@ const Header = () => {
 
         navigate('/user');
     }
+
+    // total items and total price
+    useEffect(() => {
+        const qty = cartItem.reduce((preve, curr)=>{
+            return preve + curr.quantity;
+        }, 0)
+        setTotalQty(qty);
+        // setTotalPrice()
+        const price = cartItem.reduce((prev, curr) => {
+            return prev + (curr?.productId.price * curr?.quantity);
+        }, 0)
+        setTotalPrice(price);
+    }, [cartItem]);
+    
 
     return (
         <header className='h-24 lg:h-20 lg:shadow-md sticky top-0  z-40 flex justify-center flex-col gap-1 bg-white px-10'>
@@ -103,13 +122,21 @@ const Header = () => {
                                 }
 
 
-                                <button className='flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-3 rounded text-white'>
+                                <button className='flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-2 rounded text-white'>
                                     {/* add to card icons */}
                                     <div className='animate-bounce '>
                                         <BsCart4 size={26} />
                                     </div>
                                     <div className='font-semibold'>
-                                        <p>My Cart</p>
+                                        {
+                                            cartItem[0] ? (
+                                                <div><p>{totalQty} Items</p>
+                                                <p>{DisplayPriceInRupees(totalPrice)}</p></div>
+                                            ) : (
+
+                                                <p>My Cart</p>
+                                            )
+                                        }
                                     </div>
                                 </button>
                             </div>

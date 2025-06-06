@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DisplayPriceInRupees } from '../utils/DisplayPriceInRupees'
 import { Link } from 'react-router-dom'
 import { validURLConvert } from '../utils/ValidURL.Convert'
 import { pricewithDiscount } from '../utils/PriceWithDiscount'
+import SummaryApi from '../common/SummaryApi'
+import AxiosToastError from '../utils/AxiosToastError'
+import Axios from '../utils/Axios'
+import toast from 'react-hot-toast'
+import { useGlobalContext } from '../provider/GlobalProvider'
+import AddToCartButton from './AddToCartButton'
 
 const CartProduct = ({ data }) => {
 
-    const url = `/product/${validURLConvert(data.name)}-${data._id}`
+    const url = `/product/${validURLConvert(data?.name)}-${data?._id}`
+    const [loading, setLoading] = useState(false)
+    
+
 
     return (
         <Link to={url} className='lg:p-4 py-2 border grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded bg-white'>
@@ -53,9 +62,7 @@ const CartProduct = ({ data }) => {
                         data.stock == 0 ? (
                             <p className='text-red-500 text-sm text-center'>Out of stock</p>
                         ) : (
-                            <button className='bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded'>
-                                Add
-                            </button>
+                            <AddToCartButton data={data}/>
                         )
                     }
 
