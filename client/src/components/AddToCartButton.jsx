@@ -20,8 +20,7 @@ const AddToCartButton = ({ data }) => {
     const [qty, setQty] = useState(0)
     const [cartItemDetails, setCartItemDetails] = useState()
 
-    console.log("cartItem", cartItem);
-
+    
     // Checking this item is cart or not
     useEffect(() => {
         const checkingitem = cartItem.some(item => item.productId?._id === data?._id)
@@ -64,16 +63,26 @@ const AddToCartButton = ({ data }) => {
 
     }
 
-    const increaseQty = (e) => {
+    const increaseQty = async(e) => {
         e.preventDefault()
         e.stopPropagation();
 
-        updateCartItem(cartItemDetails?._id, qty + 1)
+      const response = await updateCartItem(cartItemDetails?._id, qty + 1)
+        
+      if(response?.success) {
+        toast.success("Item added")
+      }
 
     }
-    const decreaseQty = (e) => {
+    const decreaseQty = async(e) => {
         e.preventDefault()
         e.stopPropagation();
+
+        const response = await updateCartItem(cartItemDetails?._id, qty - 1);
+
+        if(response?.success) {
+            toast.success("Item remove")
+        }
 
         if (qty === 1) {
             deleteCartItem(cartItemDetails?._id);
@@ -88,12 +97,12 @@ const AddToCartButton = ({ data }) => {
             {
                 isAvailableCart ? (
                     <div className='flex items-center gap-2 w-full h-full'>
-                        <button onClick={decreaseQty} className='bg-red-400 hover:bg-red-500 text-red-800 px-3 lg:px-2 py-1 rounded'>
-                            <FaMinus />
+                        <button onClick={decreaseQty} className='bg-red-400 hover:bg-red-500 text-red-800 px-1 py-1 lg:px-2  rounded'>
+                            <FaMinus size={12}/>
                         </button>
-                        <p className='flex flex-1 items-center justify-center w-full font-semibold px-1 bg-gray-300 rounded'>{qty}</p>
-                        <button onClick={increaseQty} className='bg-green-400 hover:bg-green-500 text-green-800 px-3 py-1 lg:px-2 rounded'>
-                            <FaPlus />
+                        <p className='flex flex-1 items-center justify-center w-full px-1 bg-gray-300 rounded text-sm font-bold'>{qty}</p>
+                        <button onClick={increaseQty} className='bg-green-400 hover:bg-green-500 text-green-800 px-1 py-1 lg:px-2 rounded'>
+                            <FaPlus size={12} />
                         </button>
                     </div>
                 ) : (
