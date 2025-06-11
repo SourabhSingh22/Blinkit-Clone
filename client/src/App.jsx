@@ -13,7 +13,6 @@ import Axios from './utils/Axios';
 import SummaryApi from './common/SummaryApi';
 import { handleAddItemCart } from './store/cartProduct'
 import GlobalProvider from './provider/GlobalProvider'
-import {FaCartShopping} from "react-icons/fa6"
 import CartMobileLink from './components/CartMobile'
 
 function App() {

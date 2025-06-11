@@ -52,7 +52,7 @@ const CartProduct = ({ data }) => {
             <div className='px-2 flex gap-1  lg:gap-3 items-center justify-between text-sm lg:text-base lg:px-0'>
                 <div className='flex items-center gap-1'>
                     <div className='font-semibold text-sm'>
-                        {DisplayPriceInRupees(pricewithDiscount(data.price, data.discount))}
+                        {DisplayPriceInRupees(pricewithDiscount(data?.price, data?.discount))}
                     </div>
 
 

@@ -20,13 +20,13 @@ const AddToCartButton = ({ data }) => {
     const [qty, setQty] = useState(0)
     const [cartItemDetails, setCartItemDetails] = useState()
 
-    
+
     // Checking this item is cart or not
     useEffect(() => {
         const checkingitem = cartItem.some(item => item.productId?._id === data?._id)
         setIsAvailableCart(checkingitem)
 
-        const product = cartItem.find(item => item.productId._id === data?._id)
+        const product = cartItem.find(item => item.productId?._id === data?._id)
         setQty(product?.quantity)
         setCartItemDetails(product)
 
@@ -63,45 +63,46 @@ const AddToCartButton = ({ data }) => {
 
     }
 
-    const increaseQty = async(e) => {
+    const increaseQty = async (e) => {
         e.preventDefault()
         e.stopPropagation();
 
-      const response = await updateCartItem(cartItemDetails?._id, qty + 1)
-        
-      if(response?.success) {
-        toast.success("Item added")
-      }
+        const response = await updateCartItem(cartItemDetails?._id, qty + 1)
+
+        if (response?.success) {
+            toast.success("Item quantity increased");
+        }
 
     }
-    const decreaseQty = async(e) => {
+    const decreaseQty = async (e) => {
         e.preventDefault()
         e.stopPropagation();
 
-        const response = await updateCartItem(cartItemDetails?._id, qty - 1);
-
-        if(response?.success) {
-            toast.success("Item remove")
-        }
-
         if (qty === 1) {
-            deleteCartItem(cartItemDetails?._id);
-           
-        } else {
-            updateCartItem(cartItemDetails?._id, qty - 1)
+            const response = await deleteCartItem(cartItemDetails._id);
+            if (response?.success) {
+                toast.success("Item removed from cart");
+            }
+            return; // 👈 yaha pe return likhna important tha
         }
+
+        const response = await updateCartItem(cartItemDetails._id, qty - 1);
+        if (response?.success) {
+            toast.success("Item quantity decreased");
+        }
+
     }
 
     return (
-        <div className='w-full max-w-[150px]'>
+        <div className='w-full max-w-[100px]'>
             {
                 isAvailableCart ? (
-                    <div className='flex items-center gap-2 w-full h-full'>
-                        <button onClick={decreaseQty} className='bg-red-400 hover:bg-red-500 text-red-800 px-1 py-1 lg:px-2  rounded'>
-                            <FaMinus size={12}/>
+                    <div className='flex items-center lg:gap-2 gap-1 w-full h-full'>
+                        <button onClick={decreaseQty} className='bg-red-400 hover:bg-red-500 text-red-800 px-1 py-1 lg:px-1  rounded'>
+                            <FaMinus size={12} />
                         </button>
-                        <p className='flex flex-1 items-center justify-center w-full px-1 bg-gray-300 rounded text-sm font-bold'>{qty}</p>
-                        <button onClick={increaseQty} className='bg-green-400 hover:bg-green-500 text-green-800 px-1 py-1 lg:px-2 rounded'>
+                        <p className='flex flex-1 items-center justify-center w-full px-1 rounded text-sm font-bold'>{qty}</p>
+                        <button onClick={increaseQty} className='bg-green-400 hover:bg-green-500 text-green-800 px-1 py-1 lg:px-1 rounded'>
                             <FaPlus size={12} />
                         </button>
                     </div>
