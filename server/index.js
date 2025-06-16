@@ -12,7 +12,7 @@ import uploadRouter from './route/upload.router.js';
 import subCategoryRouter from './route/subCategory.route.js';
 import productRouter from './route/product.router.js';
 import cartRouter from './route/cart.router.js';
-
+import addressRouter from './route/address.router.js';
 
 
 const app = express()
@@ -44,6 +44,7 @@ app.use('/api/file', uploadRouter)
 app.use('/api/subcategory',subCategoryRouter)
 app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
+app.use('/api/address', addressRouter)
 
 connectDB().then(()=>{
     app.listen(PORT, () => {

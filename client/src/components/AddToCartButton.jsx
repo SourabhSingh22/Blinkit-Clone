@@ -83,7 +83,7 @@ const AddToCartButton = ({ data }) => {
             if (response?.success) {
                 toast.success("Item removed from cart");
             }
-            return; // 👈 yaha pe return likhna important tha
+            return; //yaha pe return likhna important tha
         }
 
         const response = await updateCartItem(cartItemDetails._id, qty - 1);

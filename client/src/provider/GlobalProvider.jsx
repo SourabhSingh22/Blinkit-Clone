@@ -7,17 +7,21 @@ import React from 'react';;
 import AxiosToastError from '../utils/AxiosToastError';
 import toast from 'react-hot-toast';
 import { pricewithDiscount } from '../utils/PriceWithDiscount';
+import { use } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { handleAddAddress } from '../store/addressSlice';
 
 export const GlobalContext = createContext(null);
 
 export const useGlobalContext = () => useContext(GlobalContext)
 
 const GlobalProvider = ({ children }) => {
-
+    
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalQty, setTotalQty] = useState(0);
     const cartItem = useSelector((state) => state?.cartItem.cart)
     const [notDiscountTotalPrice, setNotDiscountPrice] = useState(0);
+    const user = useSelector(state => state?.user)
     
     const dispatch = useDispatch()
 
@@ -86,10 +90,6 @@ const GlobalProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        fetchCartItem()
-    }, [])
-
-    useEffect(() => {
             const qty = cartItem.reduce((preve, curr)=>{
                 return preve + curr.quantity;
             }, 0)
@@ -108,11 +108,44 @@ const GlobalProvider = ({ children }) => {
 
         }, [cartItem]);
 
+   
+
+    const handleLogout = () => {
+        localStorage.clear();
+        dispatch(handleAddItemCart([]));
+        // toast.success("Logout successfully")
+    }
+
+    const fetchAddress = async() =>{
+        try {
+            const response = await Axios({
+                ...SummaryApi.getAddress,
+
+            })
+
+            const {data : responseData } = response
+
+            if(responseData.success){
+                dispatch(handleAddAddress(responseData.data))
+            }
+        } catch (error) {
+            AxiosToastError(error)
+        }
+    }
+
+    useEffect(()=>{
+        fetchCartItem()
+        handleLogout()
+        fetchAddress()
+    },[user]);
+
+
     return (
         <GlobalContext.Provider value={{
             fetchCartItem,
             updateCartItem,
             deleteCartItem,
+            fetchAddress,
             totalPrice,
             totalQty, 
             notDiscountTotalPrice,

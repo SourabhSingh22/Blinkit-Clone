@@ -21,6 +21,7 @@ import SubCategoryPage from "../pages/SubCategoryPage";
 import ProductList from "../pages/ProductList";
 import ProductDisplayPage from "../pages/ProductDisplayPage";
 import DisplayCartItem from "../components/DisplayCartItem";
+import CheckoutPage from "../pages/CheckoutPage";
 
 
 
@@ -120,6 +121,10 @@ const router = createBrowserRouter([
             {
                 path : "cart",
                 element : <DisplayCartItem />
+            },
+            {
+                path : "checkout",
+                element : <CheckoutPage/>
             }
         ]
     }
