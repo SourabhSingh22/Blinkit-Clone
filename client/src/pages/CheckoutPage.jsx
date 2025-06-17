@@ -4,13 +4,51 @@ import { useGlobalContext } from '../provider/GlobalProvider'
 
 import AddAddress from '../components/AddAddress'
 import { useSelector } from 'react-redux'
+import AxiosToastError from '../utils/AxiosToastError'
+import Axios from '../utils/Axios'
+import SummaryApi from '../common/SummaryApi'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const CheckoutPage = () => {
 
-  const { notDiscountTotalPrice, totalPrice, totalQty } = useGlobalContext()
+  const { notDiscountTotalPrice, totalPrice, totalQty, fetchCartItem } = useGlobalContext()
   const [openAddress, setOpenAddress] = useState(false)
   const addressList = useSelector(state => state.addresses.addressList)
   const [selectAddress, setSelectAddress] = useState(0)
+  const cartItemsList = useSelector(state => state.cartItem.cart)
+  const navigate = useNavigate()
+
+  const handleCashOnDelivery = async() =>{
+    try {
+      const response = await Axios({
+        ...SummaryApi.cashOnDelivery,
+        data : {
+          list_items : cartItemsList,
+          addressId: addressList[selectAddress]?._id,  
+          subTotalAmt : totalPrice,
+          totalAmt : totalPrice 
+        }
+      })
+
+      const { data : responseData } = response
+
+      if(responseData.success){
+        toast.success(responseData.message)
+        if(fetchCartItem){
+          fetchCartItem()
+        }
+        navigate('/success',{
+          state : {
+            text : "Order"
+          }
+        });
+ 
+      }
+    } catch (error) {
+      AxiosToastError(error)
+    }
+  }
 
   return (
     <section className='bg-blue-50 p-4'>
@@ -25,7 +63,7 @@ const CheckoutPage = () => {
                 console.log("address:", address);
 
                 return (
-                  <label htmlFor={"address"+index} className={!address.status && 'hidden'}>
+                  <label key={"address"+index}  className={!address.status && 'hidden'}>
                     <div className='border rounded p-3 flex gap-2 hover:bg-gray-100 cursor-pointer'>
                       <div>
                         <input
@@ -78,7 +116,7 @@ const CheckoutPage = () => {
           </div>
           <div className='w-full max-w-md flex flex-col gap-3'>
             <button className='py-2 px-4 bg-green-600 rounded text-white font-semibold hover:bg-green-700'>Online Payment</button>
-            <button className='py-2 px-4 border-2 border-green-600 text-green-600 hover:bg-green-500 rounded hover:text-white font-semibold'>Cash on Delivery</button>
+            <button onClick={handleCashOnDelivery} className='py-2 px-4 border-2 border-green-600 text-green-600 hover:bg-green-500 rounded hover:text-white font-semibold'>Cash on Delivery</button>
           </div>
 
         </div>
