@@ -17,13 +17,13 @@ export const GlobalContext = createContext(null);
 export const useGlobalContext = () => useContext(GlobalContext)
 
 const GlobalProvider = ({ children }) => {
-    
+
     const [totalPrice, setTotalPrice] = useState(0);
     const [totalQty, setTotalQty] = useState(0);
     const cartItem = useSelector((state) => state?.cartItem.cart)
     const [notDiscountTotalPrice, setNotDiscountPrice] = useState(0);
     const user = useSelector(state => state?.user)
-    
+
     const dispatch = useDispatch()
 
     const fetchCartItem = async () => {
@@ -35,8 +35,13 @@ const GlobalProvider = ({ children }) => {
 
             if (responseData.success) {
                 dispatch(handleAddItemCart(responseData.data))
-                console.log(responseData);
+                // console.log(responseData);
+            }
 
+            const token = localStorage.getItem("accessToken");
+
+            if (!token) {
+                return // no token , skip api
             }
 
         } catch (error) {
@@ -62,7 +67,7 @@ const GlobalProvider = ({ children }) => {
             }
 
         } catch (error) {
-            
+
             AxiosToastError(error)
             return error
         }
@@ -91,25 +96,25 @@ const GlobalProvider = ({ children }) => {
     }
 
     useEffect(() => {
-            const qty = cartItem.reduce((preve, curr)=>{
-                return preve + curr.quantity;
-            }, 0)
-            setTotalQty(qty);
-            // setTotalPrice()
-            const tPrice = cartItem.reduce((prev, curr) => {
-                return prev + (curr.productId?.price * curr?.quantity);
-            }, 0)
-            setTotalPrice(tPrice);
+        const qty = cartItem.reduce((preve, curr) => {
+            return preve + curr.quantity;
+        }, 0)
+        setTotalQty(qty);
+        // setTotalPrice()
+        const tPrice = cartItem.reduce((prev, curr) => {
+            return prev + (curr.productId?.price * curr?.quantity);
+        }, 0)
+        setTotalPrice(tPrice);
 
-            const notDiscountedPrice = cartItem.reduce((prev, curr) => {
-                return prev + (curr.productId?.price * curr?.quantity);
-            }, 0) 
+        const notDiscountedPrice = cartItem.reduce((prev, curr) => {
+            return prev + (curr.productId?.price * curr?.quantity);
+        }, 0)
 
-            setNotDiscountPrice(notDiscountedPrice);
+        setNotDiscountPrice(notDiscountedPrice);
 
-        }, [cartItem]);
+    }, [cartItem]);
 
-   
+
 
     const handleLogout = () => {
         localStorage.clear();
@@ -117,47 +122,58 @@ const GlobalProvider = ({ children }) => {
         // toast.success("Logout successfully")
     }
 
-    const fetchAddress = async() =>{
+    const fetchAddress = async () => {
         try {
             const response = await Axios({
                 ...SummaryApi.getAddress,
 
             })
 
-            const {data : responseData } = response
+            const { data: responseData } = response
 
-            if(responseData.success){
+            if (responseData.success) {
                 dispatch(handleAddAddress(responseData.data))
             }
+
+            const token = localStorage.getItem("accessToken");
+            if (!token) return;  // ✅ No token, skip API
+
         } catch (error) {
             AxiosToastError(error)
         }
     }
 
-    const fetchOrder = async() =>{
+    const fetchOrder = async () => {
         try {
             const response = await Axios({
                 ...SummaryApi.getOrderItems,
-               
+
             })
 
-            const {data : responseData} = response
+            const { data: responseData } = response
 
-            if(responseData.success){
+            if (responseData.success) {
                 dispatch(setOrder(responseData.data))
             }
+
+            const token = localStorage.getItem("accessToken");
+            if (!token) return;  // ✅ No token, skip API
+
 
         } catch (error) {
             console.log(error)
         }
     }
 
-    useEffect(()=>{
-        fetchCartItem()
-        handleLogout()
-        fetchAddress()
-        fetchOrder()
-    },[user]);
+    useEffect(() => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) return;
+
+        fetchCartItem();
+        fetchAddress();
+        fetchOrder();
+    }, [user]);
+
 
 
     return (
@@ -167,7 +183,7 @@ const GlobalProvider = ({ children }) => {
             deleteCartItem,
             fetchAddress,
             totalPrice,
-            totalQty, 
+            totalQty,
             notDiscountTotalPrice,
             fetchOrder
             // dispatch

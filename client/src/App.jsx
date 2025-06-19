@@ -46,7 +46,7 @@ function App() {
     }
   }
 
-  const fetchSubCategroy = async () => {
+  const fetchSubCategory = async () => {
     try {
       const response = await Axios({
         ...SummaryApi.getSubCategory
@@ -68,12 +68,15 @@ function App() {
 
 
 
-  useEffect(()=>{
-    fetchUser()
-    fetchCategory();
-    fetchSubCategroy();
-    // fetchCartItem();
-  },[])
+useEffect(() => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    fetchUser(); // ✅ only if token is present
+  }
+  fetchSubCategory();
+  fetchCategory();
+}, []);
+
 
    
   return (
