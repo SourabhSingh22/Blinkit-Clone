@@ -21,6 +21,7 @@ function App() {
   const location = useLocation()
 
   const fetchUser = async ()=>{
+    
     const userData = await fetchUserDetails()
     dispatch(setUserDetails(userData.data))
   }
