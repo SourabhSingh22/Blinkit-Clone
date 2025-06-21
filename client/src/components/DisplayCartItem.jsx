@@ -113,7 +113,7 @@ const DisplayCartItem = ({ close }) => {
                 {
                     cartItem[0] && (
                     <div className='p-2'>
-                        <div className='bg-green-700 text-neutral-100 py-4 px-4 static botttom-0 font-bold text-base rounded flex items-center justify-between gap-3'>
+                        <div className='bg-green-700 text-neutral-100 p-2 py-4 px-4 static botttom-0 font-bold text-base rounded flex items-center justify-between gap-3'>
                         <div>
                             {DisplayPriceInRupees(totalPrice)}
                         </div>

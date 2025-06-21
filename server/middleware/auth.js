@@ -23,7 +23,7 @@ const auth =  async(request,response,next) =>{
             })
         }
 
-        request.userId = decode.id
+        request.userId = decode?.id
         next();
         
     } catch (error) {

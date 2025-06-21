@@ -11,6 +11,9 @@ import { pricewithDiscount } from '../utils/PriceWithDiscount';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { handleAddAddress } from '../store/addressSlice';
 import { setOrder } from '../store/orderSlice'
+import { clearCart } from '../store/cartProduct';
+
+
 
 export const GlobalContext = createContext(null);
 
@@ -35,7 +38,7 @@ const GlobalProvider = ({ children }) => {
 
             if (responseData.success) {
                 dispatch(handleAddItemCart(responseData.data))
-                // console.log(responseData);
+                console.log(responseData);
             }
 
             const token = localStorage.getItem("accessToken");
@@ -115,12 +118,12 @@ const GlobalProvider = ({ children }) => {
     }, [cartItem]);
 
 
-
-    const handleLogout = () => {
+    const handleLogoutOut = () => {
         localStorage.clear();
-        dispatch(handleAddItemCart([]));
+        dispatch(clearCart()); // ✅ This will empty cart immediately on logout
         // toast.success("Logout successfully")
     }
+
 
     const fetchAddress = async () => {
         try {
@@ -139,7 +142,7 @@ const GlobalProvider = ({ children }) => {
             if (!token) return;  // ✅ No token, skip API
 
         } catch (error) {
-            AxiosToastError(error)
+            // AxiosToastError(error)
         }
     }
 
@@ -165,16 +168,20 @@ const GlobalProvider = ({ children }) => {
         }
     }
 
+
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-        if (!token) return;
 
-        fetchCartItem();
-        fetchAddress();
-        fetchOrder();
-    }, [user]);
-
-
+        if (!token) {
+            dispatch(clearCart())
+            // ✅ No need to call APIs if not logged in
+            return;
+        }
+        fetchCartItem()
+        handleLogoutOut()
+        fetchAddress()
+        fetchOrder()
+    }, [user])
 
     return (
         <GlobalContext.Provider value={{
