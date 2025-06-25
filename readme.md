@@ -1,1 +1,1 @@
-# Blinkit Full Stack MERN App
+# Blinkit Clone Full Stack MERN App
