@@ -81,7 +81,7 @@ const Login = () => {
                         <input
                             type="email"
                             id='email'
-                            className='bg-blue-50 p-2 border rounded outline-none focus:border-yellow-400'
+                            className='bg-blue-50 p-2 border rounded outline-none focus:border-blue-400'
                             name='email'
                             value={data.email}
                             onChange={handleChange}
@@ -90,7 +90,7 @@ const Login = () => {
                     </div>
                     <div className='grid gap-1'>
                         <label htmlFor="password">Password :</label>
-                        <div className='bg-blue-50 p-2 border rounded flex items-center focus-within:border-yellow-400'>
+                        <div className='bg-blue-50 p-2 border rounded flex items-center focus-within:border-blue-400'>
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id='password'
@@ -114,7 +114,7 @@ const Login = () => {
                         className='block ml-auto hover:text-amber-400'>Forgot password ?</Link>
                     </div>
 
-                    <button disabled={!valideValue} className={`${valideValue ? "bg-green-800 hover:bg-green-700" : "bg-gray-500"}   text-white py-2 rounded font-semibold my-3 tracking-wide cursor-pointer`}>Login</button>
+                    <button disabled={!valideValue} className={`${valideValue ? "bg-blue-800 hover:bg-blue-700" : "bg-gray-500"}   text-white py-2 rounded font-semibold my-3 tracking-wide cursor-pointer`}>Login</button>
                 </form>
                 <p>
                     Don't have account ? <Link to={'/register'} className='font-semibold text-blue-600 hover:text-blue-700'>Register</Link>

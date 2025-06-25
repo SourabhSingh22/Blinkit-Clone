@@ -51,7 +51,7 @@ const DisplayCartItem = ({ close }) => {
                                 </div>
                                 <div className='bg-white rounded-lg p-4 grid gap-5 overflow-auto'>
                                     {
-                                        cartItem[0] && (
+                                        !cartItem[0] && (
                                             cartItem.map((item, index) => {
                                                 return (
                                                     <div key={item._id + "cartItemDisplay"} className='flex w-full gap-4 border-b-2 items-center'>

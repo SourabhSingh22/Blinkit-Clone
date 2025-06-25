@@ -18,7 +18,7 @@ const CartProduct = ({ data }) => {
 
 
     return (
-        <Link to={url} className='lg:p-4 py-2 border grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded bg-white'>
+        <Link to={url} className='lg:p-4 py-2 border grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded bg-white hover:bg-gray-50 hover:shadow-md'>
             <div className='min-h-20 w-full max-h-24 lg:max-h-32 rounded overflow-hidden'>
                 <img
                     src={data?.image?.[0]}

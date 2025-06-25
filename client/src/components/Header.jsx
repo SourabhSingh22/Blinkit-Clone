@@ -61,10 +61,10 @@ const Header = () => {
     //     }, 0)
     //     setTotalPrice(price);
     // }, [cartItem]);
-    
+
 
     return (
-        <header className='h-24 lg:h-20 lg:shadow-md sticky top-0  z-40 flex justify-center flex-col gap-1 bg-white px-10'>
+        <header className='h-24 lg:h-20 lg:shadow-md sticky top-0 z-40 flex justify-center flex-col gap-1 bg-white px-10'>
             {
                 !(isSearchPage && isMobile) && (
                     <div className='container flex mx-auto items-center justify-between'>
@@ -72,11 +72,11 @@ const Header = () => {
                         <div className='h-full'>
                             <Link to={"/"} className='h-full flex justify-center items-center'>
                                 <div className='hidden lg:block'>
-                                    <p className='text-yellow-500 text-4xl font-bold'>Blink<span className='text-green-700'>it</span></p>
+                                    <p className='text-blue-500 text-4xl font-bold'>Pic<span className='text-neutral-600'>kuick</span></p>
                                 </div>
 
                                 <div className='lg:hidden'>
-                                    <p className='text-yellow-500 text-4xl font-bold'>Blink<span className='text-green-700'>it</span></p>
+                                    <p className='text-blue-500 text-4xl font-bold'>Pic<span className='text-neutral-600'>kuick</span></p>
                                 </div>
 
                             </Link>
@@ -96,37 +96,41 @@ const Header = () => {
                             {/* This part for the desktop */}
                             <div className='hidden lg:flex items-center gap-10'>
 
-                                {
-                                    user?._id ? (
-                                        <div className='relative'>
-                                            <div onClick={() => setOpenUserMenu((prev) => !prev)} className='flex items-center gap-1 cursor-pointer'>
-                                                <p>Account</p>
+                                <div className='shadow-md rounded-full px-2 py-2 hover:bg-blue-50'>
+                                    {
+                                        user?._id ? (
+                                            <div className='relative'>
+                                                <div onClick={() => setOpenUserMenu((prev) => !prev)} className='flex items-center gap-1 cursor-pointer'>
+                                                    <p>Account</p>
+                                                    {
+                                                        openUserMenu ? (
+                                                            <FaAngleUp size={21} />
+                                                        ) : (
+                                                            <FaAngleDown size={21} />
+                                                        )
+                                                    }
+                                                </div>
                                                 {
-                                                    openUserMenu ? (
-                                                        <FaAngleUp size={21} />
-                                                    ) : (
-                                                        <FaAngleDown size={21} />
+                                                    openUserMenu && (
+                                                        <div className='absolute right-0 top-12'>
+                                                            <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
+                                                                <UserMenu close={handleCloseUserMenu} />
+                                                            </div>
+                                                        </div>
                                                     )
                                                 }
+
                                             </div>
-                                            {
-                                                openUserMenu && (
-                                                    <div className='absolute right-0 top-12'>
-                                                        <div className='bg-white rounded p-4 min-w-52 lg:shadow-lg'>
-                                                            <UserMenu close={handleCloseUserMenu} />
-                                                        </div>
-                                                    </div>
-                                                )
-                                            }
-
-                                        </div>
-                                    ) : (
-                                        <button className='text-lg px-2 cursor-pointer' onClick={redirectToLoginPage}>Login</button>
-                                    )
-                                }
+                                        ) : (
+                                            <button className='text-lg px-2 cursor-pointer' onClick={redirectToLoginPage}>Login</button>
+                                        )
+                                    }
+                                </div>
 
 
-                                <button onClick={()=> setOpenCartSection(true)} className='flex items-center gap-2 bg-green-800 hover:bg-green-700 px-3 py-2 rounded text-white'>
+
+
+                                <button onClick={() => setOpenCartSection(true)} className='flex items-center gap-2 bg-blue-800 hover:bg-blue-700 px-3 py-2 rounded text-white'>
                                     {/* add to card icons */}
                                     <div className='animate-bounce '>
                                         <BsCart4 size={26} />
@@ -135,7 +139,7 @@ const Header = () => {
                                         {
                                             cartItem[0] ? (
                                                 <div><p>{totalQty} Items</p>
-                                                <p>{DisplayPriceInRupees(totalPrice)}</p></div>
+                                                    <p>{DisplayPriceInRupees(totalPrice)}</p></div>
                                             ) : (
 
                                                 <p>My Cart</p>
@@ -154,7 +158,7 @@ const Header = () => {
 
             {
                 openCartSection && (
-                    <DisplayCartItem close={()=>setOpenCartSection(false)}/>
+                    <DisplayCartItem close={() => setOpenCartSection(false)} />
                 )
             }
         </header>

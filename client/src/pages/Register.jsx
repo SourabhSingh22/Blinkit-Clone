@@ -73,7 +73,7 @@ const Register = () => {
     return (
         <section className='w-full container mx-auto px-10'>
             <div className='bg-white my-4 w-full max-w-lg mx-auto rounded p-7 shadow-2xl'>
-                <p className='flex justify-center text-2xl text-amber-400'>Welcome to Blinkit</p>
+                <p className='flex justify-center text-2xl text-blue-400'>Welcome to My store</p>
                 
 
                 <form className='grid gap-4 mt-6' onSubmit={handleSubmit}>
@@ -108,7 +108,7 @@ const Register = () => {
                             <input
                                 type={showPassword ? "text" : "password"}
                                 id='password'
-                                className='w-full outline-none'
+                                className='w-full outline-none bg-transparent'
                                 name='password'
                                 value={data.password}
                                 onChange={handleChange}
@@ -131,7 +131,7 @@ const Register = () => {
                             <input
                                 type={showConfirmPassword ? "text" : "password"}
                                 id='confirmPassword'
-                                className='w-full outline-none'
+                                className='w-full outline-none bg-transparent'
                                 name='confirmPassword'
                                 value={data.confirmPassword}
                                 onChange={handleChange}
