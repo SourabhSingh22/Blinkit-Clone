@@ -35,9 +35,9 @@ function App() {
 
       const { data: responseData } = response
 
-      if (responseData.success) {
-        dispatch(setAllCategory(responseData.data))
-      }
+     if(responseData.success){
+           dispatch(setAllCategory(responseData.data.sort((a, b) => a.name.localeCompare(b.name)))) 
+        }
 
 
     } catch (error) {
@@ -55,9 +55,9 @@ function App() {
 
       const { data: responseData } = response
 
-      if (responseData.success) {
-        dispatch(setAllSubCategory(responseData.data))
-      }
+      if(responseData.success){
+           dispatch(setAllSubCategory(responseData.data.sort((a, b) => a.name.localeCompare(b.name)))) 
+        }
 
 
     } catch (error) {
@@ -69,14 +69,12 @@ function App() {
 
 
 
-useEffect(() => {
-  const token = localStorage.getItem("accessToken");
-  if (token) {
-    fetchUser(); // ✅ only if token is present
-  }
-  fetchSubCategory();
-  fetchCategory();
-}, []);
+  useEffect(()=>{
+    fetchUser()
+    fetchCategory()
+    fetchSubCategory()
+    // fetchCartItem()
+  },[])
 
 
    

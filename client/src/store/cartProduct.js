@@ -11,12 +11,12 @@ const cartSlice = createSlice({
         handleAddItemCart: (state, action) => {
             state.cart = [...action.payload];
         },
-        clearCart: (state) => {
-            state.cart = []; // ✅ This clears the cart on logout
-        }
+        // clearCart: (state) => {
+        //     state.cart = []; // ✅ This clears the cart on logout
+        // }
     }
 });
 
-export const { handleAddItemCart, clearCart } = cartSlice.actions;
+export const { handleAddItemCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

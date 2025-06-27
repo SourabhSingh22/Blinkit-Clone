@@ -11,7 +11,7 @@ import { pricewithDiscount } from '../utils/PriceWithDiscount';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { handleAddAddress } from '../store/addressSlice';
 import { setOrder } from '../store/orderSlice'
-import { clearCart } from '../store/cartProduct';
+
 
 
 
@@ -38,17 +38,11 @@ const GlobalProvider = ({ children }) => {
 
             if (responseData.success) {
                 dispatch(handleAddItemCart(responseData.data))
-                console.log(responseData);
-            }
-
-            const token = localStorage.getItem("accessToken");
-
-            if (!token) {
-                return // no token , skip api
+                console.log(responseData)
             }
 
         } catch (error) {
-            toast.error(error.message || error)
+            console.log(error)
         }
     }
 
@@ -104,24 +98,23 @@ const GlobalProvider = ({ children }) => {
         }, 0)
         setTotalQty(qty);
         // setTotalPrice()
-        const tPrice = cartItem.reduce((prev, curr) => {
-            return prev + (curr.productId?.price * curr?.quantity);
+        const tPrice = cartItem.reduce((preve, curr) => {
+            const priceAfterDiscount = pricewithDiscount(curr?.productId?.price, curr?.productId?.discount)
+
+            return preve + (priceAfterDiscount * curr.quantity)
         }, 0)
-        setTotalPrice(tPrice);
+        setTotalPrice(tPrice)
 
-        const notDiscountedPrice = cartItem.reduce((prev, curr) => {
-            return prev + (curr.productId?.price * curr?.quantity);
+        const notDiscountPrice = cartItem.reduce((preve, curr) => {
+            return preve + (curr?.productId?.price * curr.quantity)
         }, 0)
-
-        setNotDiscountPrice(notDiscountedPrice);
-
-    }, [cartItem]);
+        setNotDiscountPrice(notDiscountPrice)
+    }, [cartItem])
 
 
-    const handleLogoutOut = () => {
-        localStorage.clear();
-        dispatch(clearCart()); // ✅ This will empty cart immediately on logout
-        // toast.success("Logout successfully")
+    const handleLogoutOut = ()=>{
+        localStorage.clear()
+        dispatch(handleAddItemCart([]))
     }
 
 
@@ -138,8 +131,8 @@ const GlobalProvider = ({ children }) => {
                 dispatch(handleAddAddress(responseData.data))
             }
 
-            const token = localStorage.getItem("accessToken");
-            if (!token) return;  // ✅ No token, skip API
+            // const token = localStorage.getItem("accessToken");
+            // if (!token) return;  // ✅ No token, skip API
 
         } catch (error) {
             // AxiosToastError(error)
@@ -159,8 +152,8 @@ const GlobalProvider = ({ children }) => {
                 dispatch(setOrder(responseData.data))
             }
 
-            const token = localStorage.getItem("accessToken");
-            if (!token) return;  // ✅ No token, skip API
+            // const token = localStorage.getItem("accessToken");
+            // if (!token) return;  // ✅ No token, skip API
 
 
         } catch (error) {
@@ -169,19 +162,26 @@ const GlobalProvider = ({ children }) => {
     }
 
 
-    useEffect(() => {
-        const token = localStorage.getItem("accessToken");
+    // useEffect(() => {
+    //     const token = localStorage.getItem("accessToken");
 
-        if (!token) {
-            dispatch(clearCart())
-            // ✅ No need to call APIs if not logged in
-            return;
-        }
+    //     if (!token) {
+    //         dispatch(clearCart())
+    //         // ✅ No need to call APIs if not logged in
+    //         return;
+    //     }
+    //     fetchCartItem()
+    //     handleLogoutOut()
+    //     fetchAddress()
+    //     fetchOrder()
+    // }, [user])
+
+    useEffect(()=>{
         fetchCartItem()
         handleLogoutOut()
         fetchAddress()
         fetchOrder()
-    }, [user])
+    },[user])
 
     return (
         <GlobalContext.Provider value={{
